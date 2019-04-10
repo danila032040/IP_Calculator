@@ -1,5 +1,4 @@
 #include "Globals.h"
-Settings MySettings;	
 void Menu()
 {
 

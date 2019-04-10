@@ -3,6 +3,8 @@
 #include <fstream>
 #include <direct.h>
 #include <windows.h>
+#include <iostream>
+using namespace std;
 
 Settings::Settings()
 {

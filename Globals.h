@@ -5,4 +5,5 @@
 #include <iostream>
 #include <Windows.h>
 using namespace std;
+extern Settings MySettings;
 
