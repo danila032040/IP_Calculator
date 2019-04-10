@@ -3,9 +3,6 @@
 #include "IP_Calc.h"
 #include "IP_Splitting.h"
 #include <iostream>
-#include <string>
-#include <windows.h>
-#include <direct.h>
+#include <Windows.h>
 using namespace std;
 
-Settings MySettings;

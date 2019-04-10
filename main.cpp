@@ -1,10 +1,9 @@
-#include <iostream>
 #include "Globals.h"
-using namespace std;
-
+Settings MySettings;	
 void Menu()
 {
-	if (MySettings.GetLang()=="RUS") cout << "Добро пожаловать в IP-Calculator 3000!!!\n";
+
+	if (MySettings.GetLang() =="RUS") cout << "Добро пожаловать в IP-Calculator 3000!!!\n";
 	if (MySettings.GetLang() == "ENG") cout << "Welcome to IP-Calculator 3000!!!\n";
 	int Ans = 0;
 	while (true)
@@ -43,11 +42,12 @@ void Menu()
 			}
 		}
 	}
-	Exit:
+Exit:
+	system("cls");
 	if (MySettings.GetLang() == "RUS") cout << "Спасибо за использование нашей программы!!!\n";
-	if (MySettings.GetLang() == "RUS") cout << "								©Red Papers Comp\n";
+	if (MySettings.GetLang() == "RUS") cout << "			©Red Papers Comp\n";
 	if (MySettings.GetLang() == "ENG") cout << "Thanks for using our programm!!!\n";
-	if (MySettings.GetLang() == "ENG") cout << "                     ©Red Papers Comp\n";
+	if (MySettings.GetLang() == "ENG") cout << "                    ©Red Papers Comp\n";
 }
 
 int main()
