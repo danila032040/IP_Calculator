@@ -4,7 +4,6 @@ using namespace std;
 
 void Menu()
 {
-	MySettings.Load();
 	if (MySettings.GetLang()=="RUS") cout << "Добро пожаловать в IP-Calculator 3000!!!\n";
 	if (MySettings.GetLang() == "ENG") cout << "Welcome to IP-Calculator 3000!!!\n";
 	int Ans = 0;
@@ -53,6 +52,8 @@ void Menu()
 
 int main()
 {
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
 	Menu();
 	system("pause");
 	return 0;
