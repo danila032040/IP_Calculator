@@ -2,3 +2,7 @@
 *.db
 *.opendb
 *.ipch
+.vs/IP_Calculator/v16/.suo
+*.obj
+Debug/IP_Calc.obj
+Debug/IP_Calculator.log
