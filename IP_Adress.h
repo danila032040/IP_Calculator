@@ -1,5 +1,6 @@
 #pragma once
-
+#include <string>
+using namespace std;
 class IP_Adress
 {
 private:
@@ -11,6 +12,7 @@ private:
 	int HostMin[4];
 	int HostMax[4];
 	int Hosts;
+	string bin(int);
 public:
 	IP_Adress();
 	void CinIP();

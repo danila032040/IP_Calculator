@@ -15,6 +15,8 @@ void IP_Calc()
 	if (MySettings.GetLang() == "ENG") cout << "Enter the Bit Mask in decimal format.\n";
 	MyIP.CinMask();
 	MyIP.Start();
+	MyIP.PrintMainInfo();
+	MyIP.PrintInfo();
 	system("pause");
 	system("cls");
 }
