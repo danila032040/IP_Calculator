@@ -108,17 +108,22 @@ void IP_Adress::PrintMainInfo()
 	for (int i = 0; i < 3; i++) cout << bin(IP[i]) << "."; cout << bin(IP[3]) << ";\n";
 	cout << "BitMask: " << BitMask << ";\n";
 	cout << "NetMask: ";
-	for (int i = 0; i < 3; i++) cout << NetMask[i] << "."; cout << NetMask[3] << ";\n";
+	for (int i = 0; i < 3; i++) cout << NetMask[i] << "."; cout << NetMask[3] << " ";
+	for (int i = 0; i < 3; i++) cout << bin(NetMask[i]) << "."; cout << bin(NetMask[3]) << ";\n";
 }
 void IP_Adress::PrintInfo()
 {
 	cout << "Network: ";
-	for (int i = 0; i < 3; i++) cout << Network[i] << "."; cout << Network[3] << ";\n";
+	for (int i = 0; i < 3; i++) cout << Network[i] << "."; cout << Network[3] << " ";
+	for (int i = 0; i < 3; i++) cout << bin(Network[i]) << "."; cout << bin(Network[3]) << ";\n";
 	cout << "Broadcast: ";
-	for (int i = 0; i < 3; i++) cout << BroadCast[i] << "."; cout << BroadCast[3] << ";\n";
+	for (int i = 0; i < 3; i++) cout << BroadCast[i] << "."; cout << BroadCast[3] << " ";
+	for (int i = 0; i < 3; i++) cout << bin(BroadCast[i]) << "."; cout << bin(BroadCast[3]) << ";\n";
 	cout << "Hostmin: ";
-	for (int i = 0; i < 3; i++) cout << HostMin[i] << "."; cout << HostMin[3] << ";\n";
+	for (int i = 0; i < 3; i++) cout << HostMin[i] << "."; cout << HostMin[3] << " ";
+	for (int i = 0; i < 3; i++) cout << bin(HostMin[i]) << "."; cout << bin(HostMin[3]) << ";\n";
 	cout << "Hostmax: ";
-	for (int i = 0; i < 3; i++) cout << HostMax[i] << "."; cout << HostMax[3] << ";\n";
+	for (int i = 0; i < 3; i++) cout << HostMax[i] << "."; cout << HostMax[3] << " ";
+	for (int i = 0; i < 3; i++) cout << bin(HostMax[i]) << "."; cout << bin(HostMax[3]) << ";\n";
 	cout << "Hosts: " << Hosts << ";\n";
 }

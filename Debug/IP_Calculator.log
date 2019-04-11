@@ -1,3 +1,8 @@
-﻿  IP_Adress.cpp
+﻿  Globals.cpp
+  IP_Adress.cpp
 E:\Projects\VisualStudio\IP_Calculator\IP_Calculator\IP_Adress.cpp(66): warning C4244: +=: преобразование "double" в "int", возможна потеря данных
+  IP_Calc.cpp
+  IP_Splitting.cpp
+  main.cpp
+  Создание кода...
   IP_Calculator.vcxproj -> E:\Projects\VisualStudio\IP_Calculator\Debug\IP_Calculator.exe
