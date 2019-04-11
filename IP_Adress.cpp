@@ -67,9 +67,38 @@ void IP_Adress::Start()
 	{
 		Network[i] = NetMask[i] & IP[i];
 		HostMin[i] = Network[i];
+		BroadCast[i] = NetMask[i] & IP[i];
+		if (NetMask[i] != 255 && NetMask[i]!=0)
+		{
+			int Help = 8-(BitMask % 8), a=0;
+			while (Help > 0)
+			{
+				a = a << 1;
+				a++;
+				Help--;
+			}
+			BroadCast[i] += a;
+		}
+		if (NetMask[i] == 0) BroadCast[i] = 255;
+		HostMax[i] = BroadCast[i];
 	}
 	HostMin[3]++;
-	HostMax[3];
-	BroadCast[4];
-	Hosts;
+	{
+		int Help = 31 - BitMask;
+		while (Help > 0)
+		{
+			Hosts = (Hosts + 1) << 1;
+			Help--;
+		}
+	}
+	HostMax[3]--;
+}
+
+void IP_Adress::PrintMainInfo()
+{
+
+}
+void IP_Adress::PrintInfo()
+{
+
 }
