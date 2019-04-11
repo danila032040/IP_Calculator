@@ -17,6 +17,8 @@ void IP_Calc()
 	MyIP.Start();
 	MyIP.PrintMainInfo();
 	MyIP.PrintInfo();
+	if (MySettings.GetLang() == "RUS") cout << "Эта информация также сохранена в файл \"Info\\IP_Calc.txt\"\n";
+	if (MySettings.GetLang() == "ENG") cout << "This information have written to \"Info\\IP_Calc.txt\"\n";
 	system("pause");
 	system("cls");
 }
