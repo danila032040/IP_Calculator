@@ -1,4 +1,4 @@
-/Debug
+.Debug
 *.db
 *.opendb
 *.ipch
@@ -6,3 +6,4 @@
 *.obj
 Debug/IP_Calc.obj
 Debug/IP_Calculator.log
+Debug/Globals.obj

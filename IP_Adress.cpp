@@ -32,7 +32,17 @@ void IP_Adress::CinMask()
 	{
 		BitMask = atoi(s.c_str());
 		int Help = BitMask, i = 0;
-		//TO DO
+		while (Help >= 8)
+		{
+			NetMask[i] = 255;
+			Help -= 8;
+			i++;
+		}
+		while (Help > 0)
+		{
+			NetMask[i]+=1 << (8-Help);
+			Help--;
+		}
 	}
 	else
 	{
@@ -53,5 +63,13 @@ void IP_Adress::CinMask()
 
 void IP_Adress::Start()
 {
-
+	for (int i = 0; i < 4; i++)
+	{
+		Network[i] = NetMask[i] & IP[i];
+		HostMin[i] = Network[i];
+	}
+	HostMin[3]++;
+	HostMax[3];
+	BroadCast[4];
+	Hosts;
 }
