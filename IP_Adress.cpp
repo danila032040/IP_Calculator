@@ -239,3 +239,8 @@ void IP_Adress::PrintInfo()
 	fclose(output);
 	_chdir("..");
 }
+
+int IP_Adress::GetHosts() const
+{
+	return Hosts;
+}

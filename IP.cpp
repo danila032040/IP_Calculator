@@ -46,6 +46,7 @@ void IP_Splitting()
 	system("cls");
 	int Count;
 	IP_Adress MainNetwork;
+	Error:
 	while (true)	
 	{
 		if (MySettings.GetLang() == "RUS") cout << "Введите IP-адрес в десятично-точечном формате.\n";
@@ -76,32 +77,45 @@ void IP_Splitting()
 			}
 	}
 Exit:
+	MainNetwork.Start();
 	if (MySettings.GetLang() == "RUS") cout << "Количество необходимых подсетей: ";
 	if (MySettings.GetLang() == "ENG") cout << "The number of required subnets: ";
-	if (scanf_s("%d", &Count) != 1)
+	if (scanf_s("%d", &Count) != 1 || Count+2*Count>MainNetwork.GetHosts())
 	{
 		if (MySettings.GetLang()=="RUS") cout << "Неверное количество подсетей!!!\n";
 		if (MySettings.GetLang()=="ENG") cout << "Invalid number of subnets!!!\n";
 		system("pause");
 		system("cls");
-		goto Exit;
+		goto Error;
 	}
 	int* Hosts = new int[Count];
-Error:
+	int AllHosts = 0;
 	for (int i = 0; i < Count; i++)
 	{
 		if (MySettings.GetLang() == "RUS") cout << "\tПодсеть " << i + 1 << ": ";
 		if (MySettings.GetLang() == "ENG") cout << "\tSubnet " << i+1 << ": ";
-		if (scanf_s("%d", &Hosts) != 1)
+		if (scanf_s("%d", &Hosts[i]) != 1)
 		{
 			if (MySettings.GetLang()=="RUS") cout << "Неверное количество IP-адресов!!!\n";
 			if (MySettings.GetLang()=="ENG") cout << "Incorrect number of IP-addresses!!!\n";
 			system("pause");
 			system("cls");
+			delete[]Hosts;
 			goto Error;
 		}
+		AllHosts += Hosts[i];
+	}
+	if (AllHosts + Count * 2 > MainNetwork.GetHosts())
+	{
+		if (MySettings.GetLang() == "RUS") cout << "Неверное количество IP-адресов!!!\n";
+		if (MySettings.GetLang() == "ENG") cout << "Incorrect number of IP-addresses!!!\n";
+		system("pause");
+		system("cls");
+		delete[]Hosts;
+		goto Error;
 	}
 	IP_Adress* Network = new IP_Adress[Count];
 	delete[]Network;
 	delete[]Hosts;
+	system("cls");
 }

@@ -4,13 +4,13 @@ using namespace std;
 class IP_Adress
 {
 private:
-	int IP[4];
-	int BitMask;
-	int NetMask[4];
-	int Network[4];
-	int BroadCast[4];
-	int HostMin[4];
-	int HostMax[4];
+	unsigned short IP[4];
+	unsigned short BitMask;
+	unsigned short NetMask[4];
+	unsigned short Network[4];
+	unsigned short BroadCast[4];
+	unsigned short HostMin[4];
+	unsigned short HostMax[4];
 	int Hosts;
 	string bin(int);
 public:
@@ -20,6 +20,7 @@ public:
 	void Start();
 	void PrintMainInfo();
 	void PrintInfo();
+	int GetHosts() const;
 	~IP_Adress();
 };
 
