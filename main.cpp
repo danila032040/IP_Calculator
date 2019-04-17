@@ -15,7 +15,8 @@ void Menu()
 		if (MySettings.GetLang() == "ENG") cout << "Write 3 for settings\n";
 		if (MySettings.GetLang() == "RUS") cout << "Введите 4 для выхода\n";
 		if (MySettings.GetLang() == "ENG") cout << "Write 4 for exit\n";
-		cin >> Ans;
+		if (scanf_s("%d", &Ans)!=0);
+		while (getchar() != '\n');
 		switch (Ans)
 		{
 			case 1:
@@ -39,6 +40,12 @@ void Menu()
 				goto Exit;
 				break;
 			}
+			default:
+			{
+				system("cls");
+				if (MySettings.GetLang() == "RUS") cout << "Ошибочная команда!!!\n";
+				if (MySettings.GetLang() == "ENG") cout << "Error command!!!\n";
+			}
 		}
 	}
 Exit:
@@ -46,7 +53,7 @@ Exit:
 	if (MySettings.GetLang() == "RUS") cout << "Спасибо за использование нашей программы!!!\n";
 	if (MySettings.GetLang() == "RUS") cout << "			©Red Papers Comp\n";
 	if (MySettings.GetLang() == "ENG") cout << "Thanks for using our programm!!!\n";
-	if (MySettings.GetLang() == "ENG") cout << "                    ©Red Papers Comp\n";
+	if (MySettings.GetLang() == "ENG") cout << "                    ©Red Papers Studio\n";
 }
 
 int main()

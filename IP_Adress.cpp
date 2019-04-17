@@ -35,6 +35,7 @@ int IP_Adress::CinIP()
 		if (IP[i] > 255 || IP[i]<0) return 1;
 	return 0;
 }
+
 int IP_Adress::CinMask()
 {
 	int Err = scanf_s("%d.%d.%d.%d\0", &NetMask[0], &NetMask[1], &NetMask[2], &NetMask[3]);
@@ -50,6 +51,7 @@ int IP_Adress::CinMask()
 			Help -= 8;
 			i++;
 		}
+		if (Help>0) NetMask[i] = 0;
 		while (Help > 0)
 		{
 			NetMask[i] += 1 << (8 - Help);
@@ -72,88 +74,168 @@ int IP_Adress::CinMask()
 
 void IP_Adress::Start()
 {
-	for (int i = 0; i < 4; i++)
+	if (BitMask == 32)
 	{
-		Network[i] = NetMask[i] & IP[i];
-		HostMin[i] = Network[i];
-		BroadCast[i] = NetMask[i] & IP[i];
-		if (NetMask[i] != 255 && NetMask[i]!=0)
+		for (int i = 0; i < 4; i++)
 		{
-			int Help = 8-(BitMask % 8), a=0;
-			while (Help > 0)
+			Network[i] = IP[i];
+			BroadCast[i] = IP[i];
+			HostMax[i] = IP[i];
+			HostMin[i] = IP[i];
+		}
+		Hosts = 1;
+	}
+	else
+		if (BitMask == 31)
+		{
+			for (int i = 0; i < 4; i++)
 			{
-				a = a << 1;
-				a++;
-				Help--;
+				Network[i] = IP[i];
+				BroadCast[i] = IP[i];
+				HostMax[i] = IP[i];
+				HostMin[i] = IP[i];
 			}
-			BroadCast[i] += a;
+			BroadCast[3]++;
+			HostMax[3]++;
+			Hosts = 2;
 		}
-		if (NetMask[i] == 0) BroadCast[i] = 255;
-		HostMax[i] = BroadCast[i];
-	}
-	HostMin[3]++;
-	{
-		int Help = 31 - BitMask;
-		while (Help > 0)
+		else
 		{
-			Hosts = (Hosts + 1) << 1;
-			Help--;
+			for (int i = 0; i < 4; i++)
+			{
+				Network[i] = NetMask[i] & IP[i];
+				HostMin[i] = Network[i];
+				BroadCast[i] = NetMask[i] & IP[i];
+				if (NetMask[i] != 255 && NetMask[i] != 0)
+				{
+					int Help = 8 - (BitMask % 8), a = 0;
+					while (Help > 0)
+					{
+						a = a << 1;
+						a++;
+						Help--;
+					}
+					BroadCast[i] += a;
+				}
+				if (NetMask[i] == 0) BroadCast[i] = 255;
+				HostMax[i] = BroadCast[i];
+			}
+			HostMin[3]++;
+			{
+				int Help = 31 - BitMask;
+				while (Help > 0)
+				{
+					Hosts = (Hosts + 1) << 1;
+					Help--;
+				}
+			}
+			HostMax[3]--;
 		}
-	}
-	HostMax[3]--;
 }
 
 void IP_Adress::PrintMainInfo()
 {
-	printf_s("*********************************************************************\n");
-	printf_s("*   Adress  * %3d.%3d.%3d.%3d * %s.%s.%s.%s *\n",IP[0],IP[1],IP[2],IP[3],bin(IP[0]).c_str(),bin(IP[1]).c_str(),bin(IP[2]).c_str(),bin(IP[3]).c_str());
-	printf_s("*********************************************************************\n");
-	printf_s("*  BitMask  *%28d                           *\n",BitMask);
-	printf_s("*********************************************************************\n");
-	printf_s("*  NetMask  * %3d.%3d.%3d.%3d * %s.%s.%s.%s *\n", NetMask[0], NetMask[1], NetMask[2], NetMask[3], bin(NetMask[0]).c_str(), bin(NetMask[1]).c_str(), bin(NetMask[2]).c_str(), bin(NetMask[3]).c_str());
-	printf_s("*********************************************************************\n");
+	string Sdvig = "";
+	for (int i = 0; i < 4; i++)
+	{
+		if (IP[i] < 100) Sdvig+=" ";
+		if (IP[i] < 9) Sdvig+=" ";
+	}
+	printf_s("Adress:    %d.%d.%d.%d%s %s.%s.%s.%s\n", IP[0], IP[1], IP[2], IP[3],Sdvig.c_str(),bin(IP[0]).c_str(),bin(IP[1]).c_str(), bin(IP[2]).c_str(), bin(IP[3]).c_str());
+	printf_s("BitMask: %25d                            \n",BitMask);
+	Sdvig = "";
+	for (int i = 0; i < 4; i++)
+	{
+		if (NetMask[i] < 100) Sdvig += " ";
+		if (NetMask[i] < 9) Sdvig += " ";
+	}
+	printf_s("NetMask:   %d.%d.%d.%d%s %s.%s.%s.%s\n", NetMask[0], NetMask[1], NetMask[2], NetMask[3], Sdvig.c_str(),bin(NetMask[0]).c_str(), bin(NetMask[1]).c_str(), bin(NetMask[2]).c_str(), bin(NetMask[3]).c_str());
 	FILE* output;
 	_mkdir("Info");
 	_chdir("Info");
 	fopen_s(&output, "IP_Calc.txt", "w");
-	fprintf_s(output,"*********************************************************************\n");
-	fprintf_s(output,"*   Adress  * %3d.%3d.%3d.%3d * %s.%s.%s.%s *\n", IP[0], IP[1], IP[2], IP[3], bin(IP[0]).c_str(), bin(IP[1]).c_str(), bin(IP[2]).c_str(), bin(IP[3]).c_str());
-	fprintf_s(output,"*********************************************************************\n");
-	fprintf_s(output,"*  BitMask  *%28d                           *\n", BitMask);
-	fprintf_s(output,"*********************************************************************\n");
-	fprintf_s(output,"*  NetMask  * %3d.%3d.%3d.%3d * %s.%s.%s.%s *\n", NetMask[0], NetMask[1], NetMask[2], NetMask[3], bin(NetMask[0]).c_str(), bin(NetMask[1]).c_str(), bin(NetMask[2]).c_str(), bin(NetMask[3]).c_str());
-	fprintf_s(output,"*********************************************************************\n");
+	for (int i = 0; i < 4; i++)
+	{
+		if (IP[i] < 100) Sdvig += " ";
+		if (IP[i] < 9) Sdvig += " ";
+	}
+	fprintf_s(output,"Adress:    %d.%d.%d.%d%s %s.%s.%s.%s\n", IP[0], IP[1], IP[2], IP[3], Sdvig.c_str(), bin(IP[0]).c_str(), bin(IP[1]).c_str(), bin(IP[2]).c_str(), bin(IP[3]).c_str());
+	fprintf_s(output,"BitMask: %25d                            \n", BitMask);
+	Sdvig = "";
+	for (int i = 0; i < 4; i++)
+	{
+		if (NetMask[i] < 100) Sdvig += " ";
+		if (NetMask[i] < 9) Sdvig += " ";
+	}
+	fprintf_s(output,"NetMask:   %d.%d.%d.%d%s %s.%s.%s.%s\n", NetMask[0], NetMask[1], NetMask[2], NetMask[3], Sdvig.c_str(), bin(NetMask[0]).c_str(), bin(NetMask[1]).c_str(), bin(NetMask[2]).c_str(), bin(NetMask[3]).c_str());
+
 	fclose(output);
 	_chdir("..");
 }
 void IP_Adress::PrintInfo()
 {
-	printf_s("*********************************************************************\n");
-	printf_s("*  Network  * %3d.%3d.%3d.%3d * %s.%s.%s.%s *\n", Network[0], Network[1], Network[2], Network[3], bin(Network[0]).c_str(), bin(Network[1]).c_str(), bin(Network[2]).c_str(), bin(Network[3]).c_str());
-	printf_s("*********************************************************************\n");
-	printf_s("* Broadcast * %3d.%3d.%3d.%3d * %s.%s.%s.%s *\n", BroadCast[0], BroadCast[1], BroadCast[2], BroadCast[3], bin(BroadCast[0]).c_str(), bin(BroadCast[1]).c_str(), bin(BroadCast[2]).c_str(), bin(BroadCast[3]).c_str());
-	printf_s("*********************************************************************\n");
-	printf_s("*  Hostmin  * %3d.%3d.%3d.%3d * %s.%s.%s.%s *\n", HostMin[0], HostMin[1], HostMin[2], HostMin[3], bin(HostMin[0]).c_str(), bin(HostMin[1]).c_str(), bin(HostMin[2]).c_str(), bin(HostMin[3]).c_str());
-	printf_s("*********************************************************************\n");
-	printf_s("*  Hostmax  * %3d.%3d.%3d.%3d * %s.%s.%s.%s *\n", HostMax[0], HostMax[1], HostMax[2], HostMax[3], bin(HostMax[0]).c_str(), bin(HostMax[1]).c_str(), bin(HostMax[2]).c_str(), bin(HostMax[3]).c_str());
-	printf_s("*********************************************************************\n");
-	printf_s("*   Hosts   *%28d                           *\n", Hosts);
-	printf_s("*********************************************************************\n");
+	string Sdvig = "";
+	for (int i = 0; i < 4; i++)
+	{
+		if (Network[i] < 100) Sdvig += " ";
+		if (Network[i] < 9) Sdvig += " ";
+	}
+	printf_s("Network:   %d.%d.%d.%d%s %s.%s.%s.%s\n", Network[0], Network[1], Network[2], Network[3], Sdvig.c_str(),bin(Network[0]).c_str(), bin(Network[1]).c_str(), bin(Network[2]).c_str(), bin(Network[3]).c_str());
+	Sdvig = "";
+	for (int i = 0; i < 4; i++)
+	{
+		if (HostMin[i] < 100) Sdvig += " ";
+		if (HostMin[i] < 9) Sdvig += " ";
+	}
+	printf_s("Hostmin:   %d.%d.%d.%d%s %s.%s.%s.%s\n", HostMin[0], HostMin[1], HostMin[2], HostMin[3], Sdvig.c_str(),bin(HostMin[0]).c_str(), bin(HostMin[1]).c_str(), bin(HostMin[2]).c_str(), bin(HostMin[3]).c_str());
+	Sdvig = "";
+	for (int i = 0; i < 4; i++)
+	{
+		if (HostMax[i] < 100) Sdvig += " ";
+		if (HostMax[i] < 9) Sdvig += " ";
+	}
+	printf_s("Hostmax:   %d.%d.%d.%d%s %s.%s.%s.%s\n", HostMax[0], HostMax[1], HostMax[2], HostMax[3], Sdvig.c_str(),bin(HostMax[0]).c_str(), bin(HostMax[1]).c_str(), bin(HostMax[2]).c_str(), bin(HostMax[3]).c_str());
+	Sdvig = "";
+	for (int i = 0; i < 4; i++)
+	{
+		if (BroadCast[i] < 100) Sdvig += " ";
+		if (BroadCast[i] < 9) Sdvig += " ";
+	}
+	printf_s("Broadcast: %d.%d.%d.%d%s %s.%s.%s.%s\n", BroadCast[0], BroadCast[1], BroadCast[2], BroadCast[3], Sdvig.c_str(),bin(BroadCast[0]).c_str(), bin(BroadCast[1]).c_str(), bin(BroadCast[2]).c_str(), bin(BroadCast[3]).c_str());
+	printf_s("Hosts:   %25d                            \n", Hosts);
 	FILE* output;
 	_mkdir("Info");
 	_chdir("Info");
 	fopen_s(&output, "IP_Calc.txt", "a");
-	fprintf_s(output,"*********************************************************************\n");
-	fprintf_s(output,"*  Network  * %3d.%3d.%3d.%3d * %s.%s.%s.%s *\n", Network[0], Network[1], Network[2], Network[3], bin(Network[0]).c_str(), bin(Network[1]).c_str(), bin(Network[2]).c_str(), bin(Network[3]).c_str());
-	fprintf_s(output,"*********************************************************************\n");
-	fprintf_s(output,"* Broadcast * %3d.%3d.%3d.%3d * %s.%s.%s.%s *\n", BroadCast[0], BroadCast[1], BroadCast[2], BroadCast[3], bin(BroadCast[0]).c_str(), bin(BroadCast[1]).c_str(), bin(BroadCast[2]).c_str(), bin(BroadCast[3]).c_str());
-	fprintf_s(output,"*********************************************************************\n");
-	fprintf_s(output,"*  Hostmin  * %3d.%3d.%3d.%3d * %s.%s.%s.%s *\n", HostMin[0], HostMin[1], HostMin[2], HostMin[3], bin(HostMin[0]).c_str(), bin(HostMin[1]).c_str(), bin(HostMin[2]).c_str(), bin(HostMin[3]).c_str());
-	fprintf_s(output,"*********************************************************************\n");
-	fprintf_s(output,"*  Hostmax  * %3d.%3d.%3d.%3d * %s.%s.%s.%s *\n", HostMax[0], HostMax[1], HostMax[2], HostMax[3], bin(HostMax[0]).c_str(), bin(HostMax[1]).c_str(), bin(HostMax[2]).c_str(), bin(HostMax[3]).c_str());
-	fprintf_s(output,"*********************************************************************\n");
-	fprintf_s(output,"*   Hosts   *%28d                           *\n", Hosts);
-	fprintf_s(output,"*********************************************************************\n");
+	Sdvig = "";
+	for (int i = 0; i < 4; i++)
+	{
+		if (Network[i] < 100) Sdvig += " ";
+		if (Network[i] < 9) Sdvig += " ";
+	}
+	fprintf_s(output,"Network:   %d.%d.%d.%d%s %s.%s.%s.%s\n", Network[0], Network[1], Network[2], Network[3], Sdvig.c_str(),bin(Network[0]).c_str(), bin(Network[1]).c_str(), bin(Network[2]).c_str(), bin(Network[3]).c_str());
+	Sdvig = "";
+	for (int i = 0; i < 4; i++)
+	{
+		if (HostMin[i] < 100) Sdvig += " ";
+		if (HostMin[i] < 9) Sdvig += " ";
+	}
+	fprintf_s(output,"Hostmin:   %d.%d.%d.%d%s %s.%s.%s.%s\n", HostMin[0], HostMin[1], HostMin[2], HostMin[3], Sdvig.c_str(),bin(HostMin[0]).c_str(), bin(HostMin[1]).c_str(), bin(HostMin[2]).c_str(), bin(HostMin[3]).c_str());
+	Sdvig = "";
+	for (int i = 0; i < 4; i++)
+	{
+		if (HostMax[i] < 100) Sdvig += " ";
+		if (HostMax[i] < 9) Sdvig += " ";
+	}
+	fprintf_s(output,"Hostmax:   %d.%d.%d.%d%s %s.%s.%s.%s\n", HostMax[0], HostMax[1], HostMax[2], HostMax[3], Sdvig.c_str(),bin(HostMax[0]).c_str(), bin(HostMax[1]).c_str(), bin(HostMax[2]).c_str(), bin(HostMax[3]).c_str());
+	Sdvig = "";
+	for (int i = 0; i < 4; i++)
+	{
+		if (BroadCast[i] < 100) Sdvig += " ";
+		if (BroadCast[i] < 9) Sdvig += " ";
+	}
+	fprintf_s(output,"Broadcast: %d.%d.%d.%d%s %s.%s.%s.%s\n", BroadCast[0], BroadCast[1], BroadCast[2], BroadCast[3], Sdvig.c_str(),bin(BroadCast[0]).c_str(), bin(BroadCast[1]).c_str(), bin(BroadCast[2]).c_str(), bin(BroadCast[3]).c_str());
+	fprintf_s(output,"Hosts:   %25d                            \n", Hosts);
 	fclose(output);
 	_chdir("..");
 }
