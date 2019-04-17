@@ -376,3 +376,44 @@ int IP_Adress::GetHosts() const
 {
 	return Hosts;
 }
+
+void IP_Adress::Make(const IP_Adress& obj, const int Size)
+{
+	for (int i = 0; i < 4; i++) IP[i] = obj.BroadCast[i];
+	IP[3]++;
+	BitMask = 32 - int(log10(Size + 2 + 1) / log10(2));
+	int Help = BitMask, i = 0;
+	while (Help >= 8)
+	{
+		NetMask[i] = 255;
+		Help -= 8;
+		i++;
+	}
+	if (Help > 0) NetMask[i] = 0;
+	while (Help > 0)
+	{
+		NetMask[i] += 1 << (8 - Help);
+		Help--;
+	}
+	Start();
+}
+
+void IP_Adress::Make(const int Size, const IP_Adress& obj)
+{
+	for (int i = 0; i < 4; i++) IP[i] = obj.IP[i];
+	BitMask = 32 - int(log10(Size+2 + 1) / log10(2));
+	int Help = BitMask, i = 0;
+	while (Help >= 8)
+	{
+		NetMask[i] = 255;
+		Help -= 8;
+		i++;
+	}
+	if (Help > 0) NetMask[i] = 0;
+	while (Help > 0)
+	{
+		NetMask[i] += 1 << (8 - Help);
+		Help--;
+	}
+	Start();
+}

@@ -21,6 +21,8 @@ public:
 	void PrintMainInfo();
 	void PrintOtherInfo();
 	void PrintInfo();
+	void Make(const IP_Adress&,const int);
+	void Make(const int, const IP_Adress&);
 	int GetHosts() const;
 	~IP_Adress();
 };

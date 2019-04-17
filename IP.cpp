@@ -1,5 +1,6 @@
 #include "IP.h"
 #include <direct.h>
+#include <algorithm>
 void IP_Calc()
 {
 	IP_Adress MyIP;
@@ -116,7 +117,12 @@ Exit:
 	}
 	IP_Adress* Network = new IP_Adress[Count];
 	cout << "\n";
-	//To DO
+	sort(Hosts, Hosts + Count,greater<int>());
+	Network[0].Make(Hosts[0],MainNetwork);
+	for (int i = 1; i < Count; i++)
+	{
+		Network[i].Make(Network[i - 1], Hosts[i]);
+	}
 	MainNetwork.PrintMainInfo();
 	for (int i = 0; i < Count; i++)
 	{
@@ -138,6 +144,23 @@ Exit:
 		_chdir("..");
 		Network[i].PrintOtherInfo();
 	}
+	FILE* output;
+	_mkdir("Info");
+	_chdir("Info");
+	fopen_s(&output, "IP_Splitting.txt", "a");
+	int FreeIP = MainNetwork.GetHosts() - AllHosts;
+	if (MySettings.GetLang() == "RUS")
+	{
+		printf_s("Свободных IP адресов: %20d\n", FreeIP);
+		fprintf_s(output, "Свободных IP адресов: %20d\n", FreeIP);
+	}
+	if (MySettings.GetLang() == "ENG")
+	{
+		printf_s("Free IP Addresses: %23d:\n", FreeIP);
+		fprintf_s(output, "Free IP Addresses: %23d\n", FreeIP);
+	}
+	fclose(output);
+	_chdir("..");
 	delete[]Network;
 	delete[]Hosts;
 	if (MySettings.GetLang() == "RUS") cout << "Эта информация также сохранена в файл \"Info\\IP_Splitting.txt\"\n";
