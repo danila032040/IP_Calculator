@@ -12,6 +12,10 @@ Settings::Settings()
 	SetConsoleOutputCP(1251);
 	if (Load())
 	{
+		cout << "Ошибка открытия файла!!!\n";
+		cout << "Can not open the file!!!\n";
+		system("pause");
+		system("cls");
 		if (Set())
 		{
 			cout << "Критическая ошибка!!!\n";
@@ -41,6 +45,7 @@ void Settings::SetLang()
 	int Ans;
 	while (true)
 	{
+		system("cls");
 		cout << "Choose your language\n";
 		cout << "\t1 - ENG\n";
 		cout << "\t2 - RUS\n";
@@ -49,15 +54,19 @@ void Settings::SetLang()
 		else
 		{
 			cout << "Press Y/N\n";
-			char c = _getch();
-			if (c == 'y' || c == 'Y')
+			char c;
+			while (c = _getch())
 			{
-				switch (Ans)
+				if (c == 'y' || c == 'Y')
 				{
+					switch (Ans)
+					{
 					case 1: Lang = "ENG"; break;
 					case 2: Lang = "RUS"; break;
+					}
+					return;
 				}
-				return;
+				else if (c == 'n' || c == 'N') break;
 			}
 		}
 	}
@@ -93,16 +102,11 @@ int Settings::Load()
 	ifstream fin("Settings.txt");
 	if (!fin.is_open())
 	{
-		cout << "Ошибка открытия файла!!!\n";
-		cout << "Can not open the file!!!\n";
 		_chdir("..");
-		system("pause");
-		system("cls");
 		return 1;
 	}
 	fin >> Lang;
 	fin.close();
 	_chdir("..");
-	system("cls");
-	return 0;
+	return Lang!="ENG" || Lang!="RUS";
 }
