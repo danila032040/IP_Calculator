@@ -20,22 +20,24 @@ void IP_Calc()
 			system("pause");
 			system("cls");
 		}
-		else break;
-	}
-	while (true)
-	{
-		if (MySettings.GetLang() == "RUS") cout << "¬ведите маску подсети в дес€тично-точечном формате.\n";
-		if (MySettings.GetLang() == "ENG") cout << "Enter the Net Mask in decimal format.\n";
-		if (MyIP.CinMask())
+		else
+		while (true)
 		{
-			if (MySettings.GetLang() == "RUS") cout << "Ќедопустимое значение дл€ Net Mask!!!\n";
-			if (MySettings.GetLang() == "ENG") cout << "Invalid value for Net Mask!!!\n";
-			while (getchar() != '\n');
-			system("pause");
-			system("cls");
+			if (MySettings.GetLang() == "RUS") cout << "¬ведите маску подсети в дес€тично-точечном формате.\n";
+			if (MySettings.GetLang() == "ENG") cout << "Enter the Net Mask in decimal format.\n";
+			if (MyIP.CinMask())
+			{
+				if (MySettings.GetLang() == "RUS") cout << "Ќедопустимое значение дл€ Net Mask!!!\n";
+				if (MySettings.GetLang() == "ENG") cout << "Invalid value for Net Mask!!!\n";
+				while (getchar() != '\n');
+				system("pause");
+				system("cls");
+				break;
+			}
+			else goto Exit;
 		}
-		else break;
 	}
+	Exit:
 	MyIP.Start();
 	MyIP.PrintMainInfo();
 	MyIP.PrintInfo();

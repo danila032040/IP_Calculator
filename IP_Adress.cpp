@@ -37,11 +37,12 @@ int IP_Adress::CinIP()
 }
 int IP_Adress::CinMask()
 {
-	string s;
-	cin >> s;
-	if (s.find('.') == -1)
+	int Err = scanf_s("%d.%d.%d.%d\0", &NetMask[0], &NetMask[1], &NetMask[2], &NetMask[3]);
+	if (Err == 1)
 	{
-		BitMask = atoi(s.c_str());
+		BitMask = NetMask[0];
+		if (BitMask > 32 || BitMask < 0) return 1;
+		NetMask[0] = 0;
 		int Help = BitMask, i = 0;
 		while (Help >= 8)
 		{
@@ -51,22 +52,18 @@ int IP_Adress::CinMask()
 		}
 		while (Help > 0)
 		{
-			NetMask[i]+=1 << (8-Help);
+			NetMask[i] += 1 << (8 - Help);
 			Help--;
 		}
 	}
 	else
 	{
-		for (int i = 3; i >= 0; i--)
+		if (Err != 4) return 1;
+		for (int i = 0; i < 4; i++)
 		{
-			string c;
-			if (s.find_last_of('.') != -1)
-			{
-				c=s.substr(s.find_last_of('.') + 1, s.size());
-				s.erase(s.find_last_of('.'), s.size());
-			}
-			else c = s;
-			NetMask[i] = atoi(c.c_str());
+			if (NetMask[i] != 255 && NetMask[i] != 254 && NetMask[i] != 252 &&
+				NetMask[i] != 248 && NetMask[i] != 240 && NetMask[i] != 224 &&
+				NetMask[i] != 192 && NetMask[i] != 128 && NetMask[i] != 0) return 1;
 			BitMask += int(log10(NetMask[i] + 1) / log10(2));
 		}
 	}
