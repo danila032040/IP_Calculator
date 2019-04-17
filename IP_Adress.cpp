@@ -1,4 +1,5 @@
 #include "IP_Adress.h"
+#include "Globals.h"
 #include <iostream>
 #include <string>
 using namespace std;
@@ -26,12 +27,14 @@ IP_Adress::~IP_Adress()
 {
 }
 
-void IP_Adress::CinIP()
+int IP_Adress::CinIP()
 {
-	for (int i = 0; i < 3; i++) scanf_s("%d.", &IP[i]); scanf_s("%d", &IP[3]);
-
+	if (scanf_s("%d.%d.%d.%d\0", &IP[0],&IP[1],&IP[2],&IP[3])!=4) return 1;
+	for (int i = 0; i < 4; i++)
+		if (IP[i] > 255 || IP[i]<0) return 1;
+	return 0;
 }
-void IP_Adress::CinMask()
+int IP_Adress::CinMask()
 {
 	string s;
 	cin >> s;
@@ -66,6 +69,7 @@ void IP_Adress::CinMask()
 			BitMask += log10(NetMask[i] + 1) / log10(2);
 		}
 	}
+	return 0;
 }
 
 void IP_Adress::Start()

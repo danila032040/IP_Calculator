@@ -15,8 +15,8 @@ private:
 	string bin(int);
 public:
 	IP_Adress();
-	void CinIP();
-	void CinMask();
+	int CinIP();
+	int CinMask();
 	void Start();
 	void PrintMainInfo();
 	void PrintInfo();
