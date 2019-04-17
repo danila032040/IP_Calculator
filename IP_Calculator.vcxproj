@@ -124,17 +124,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Globals.cpp" />
+    <ClCompile Include="IP.cpp" />
     <ClCompile Include="IP_Adress.cpp" />
-    <ClCompile Include="IP_Calc.cpp" />
-    <ClCompile Include="IP_Splitting.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Settings.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="IP.h" />
     <ClInclude Include="IP_Adress.h" />
-    <ClInclude Include="IP_Calc.h" />
-    <ClInclude Include="IP_Splitting.h" />
     <ClInclude Include="Settings.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

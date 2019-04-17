@@ -49,15 +49,17 @@ void Settings::SetLang()
 		cout << "Choose your language\n";
 		cout << "\t1 - ENG\n";
 		cout << "\t2 - RUS\n";
+		cout << "\t3 - Exit\n";
 		cin >> Ans;
-		if (Ans != 1 && Ans != 2) cout << "Error\n";
+		if (Ans != 1 && Ans !=2 && Ans!=3) cout << "Error\n";
 		else
 		{
+			if (Ans == 3) return;
 			cout << "Press Y/N\n";
 			char c;
 			while (c = _getch())
 			{
-				if (c == 'y' || c == 'Y')
+				if (c == 'y' || c == 'Y' || c=='í' || c=='Í')
 				{
 					switch (Ans)
 					{
@@ -66,7 +68,7 @@ void Settings::SetLang()
 					}
 					return;
 				}
-				else if (c == 'n' || c == 'N') break;
+				else if (c == 'n' || c == 'N' || c=='ò' || c=='Ò') break;
 			}
 		}
 	}
@@ -108,5 +110,5 @@ int Settings::Load()
 	fin >> Lang;
 	fin.close();
 	_chdir("..");
-	return Lang!="ENG" || Lang!="RUS";
+	return Lang!="ENG" && Lang!="RUS";
 }

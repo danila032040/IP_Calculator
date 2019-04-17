@@ -1,12 +1,7 @@
-#include "IP_Calc.h"
-#include "Globals.h"
-#include <iostream>
-using namespace std;
-
-
-
+#include "IP.h"
 void IP_Calc()
 {
+	IP_Adress MyIP;
 	system("cls");
 	while (true)
 	{
@@ -21,28 +16,32 @@ void IP_Calc()
 			system("cls");
 		}
 		else
-		while (true)
-		{
-			if (MySettings.GetLang() == "RUS") cout << "Введите маску подсети в десятично-точечном формате.\n";
-			if (MySettings.GetLang() == "ENG") cout << "Enter the Net Mask in decimal format.\n";
-			if (MyIP.CinMask())
+			while (true)
 			{
-				if (MySettings.GetLang() == "RUS") cout << "Недопустимое значение для Net Mask!!!\n";
-				if (MySettings.GetLang() == "ENG") cout << "Invalid value for Net Mask!!!\n";
-				while (getchar() != '\n');
-				system("pause");
-				system("cls");
-				break;
+				if (MySettings.GetLang() == "RUS") cout << "Введите маску подсети в десятично-точечном формате.\n";
+				if (MySettings.GetLang() == "ENG") cout << "Enter the Net Mask in decimal format.\n";
+				if (MyIP.CinMask())
+				{
+					if (MySettings.GetLang() == "RUS") cout << "Недопустимое значение для Net Mask!!!\n";
+					if (MySettings.GetLang() == "ENG") cout << "Invalid value for Net Mask!!!\n";
+					while (getchar() != '\n');
+					system("pause");
+					system("cls");
+					break;
+				}
+				else goto Exit;
 			}
-			else goto Exit;
-		}
 	}
-	Exit:
+Exit:
 	MyIP.Start();
 	MyIP.PrintMainInfo();
 	MyIP.PrintInfo();
 	if (MySettings.GetLang() == "RUS") cout << "Эта информация также сохранена в файл \"Info\\IP_Calc.txt\"\n";
 	if (MySettings.GetLang() == "ENG") cout << "This information have written to \"Info\\IP_Calc.txt\"\n";
 	system("pause");
+	system("cls");
+}
+void IP_Splitting()
+{
 	system("cls");
 }

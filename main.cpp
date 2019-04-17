@@ -15,7 +15,7 @@ void Menu()
 		if (MySettings.GetLang() == "ENG") cout << "Write 3 for settings\n";
 		if (MySettings.GetLang() == "RUS") cout << "¬ведите 4 дл€ выхода\n";
 		if (MySettings.GetLang() == "ENG") cout << "Write 4 for exit\n";
-		if (scanf_s("%d", &Ans)!=0);
+		if (scanf_s("%d", &Ans) != 1) Ans = 0;
 		while (getchar() != '\n');
 		switch (Ans)
 		{
