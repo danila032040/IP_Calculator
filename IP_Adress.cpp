@@ -135,46 +135,26 @@ void IP_Adress::Start()
 
 void IP_Adress::PrintMainInfo()
 {
+
+}
+void IP_Adress::PrintInfo()
+{
 	string Sdvig = "";
-	for (int i = 0; i < 4; i++)
-	{
-		if (IP[i] < 100) Sdvig+=" ";
-		if (IP[i] < 9) Sdvig+=" ";
-	}
-	printf_s("Adress:    %d.%d.%d.%d%s %s.%s.%s.%s\n", IP[0], IP[1], IP[2], IP[3],Sdvig.c_str(),bin(IP[0]).c_str(),bin(IP[1]).c_str(), bin(IP[2]).c_str(), bin(IP[3]).c_str());
-	printf_s("BitMask: %25d                            \n",BitMask);
-	Sdvig = "";
-	for (int i = 0; i < 4; i++)
-	{
-		if (NetMask[i] < 100) Sdvig += " ";
-		if (NetMask[i] < 9) Sdvig += " ";
-	}
-	printf_s("NetMask:   %d.%d.%d.%d%s %s.%s.%s.%s\n", NetMask[0], NetMask[1], NetMask[2], NetMask[3], Sdvig.c_str(),bin(NetMask[0]).c_str(), bin(NetMask[1]).c_str(), bin(NetMask[2]).c_str(), bin(NetMask[3]).c_str());
-	FILE* output;
-	_mkdir("Info");
-	_chdir("Info");
-	fopen_s(&output, "IP_Calc.txt", "w");
 	for (int i = 0; i < 4; i++)
 	{
 		if (IP[i] < 100) Sdvig += " ";
 		if (IP[i] < 9) Sdvig += " ";
 	}
-	fprintf_s(output,"Adress:    %d.%d.%d.%d%s %s.%s.%s.%s\n", IP[0], IP[1], IP[2], IP[3], Sdvig.c_str(), bin(IP[0]).c_str(), bin(IP[1]).c_str(), bin(IP[2]).c_str(), bin(IP[3]).c_str());
-	fprintf_s(output,"BitMask: %25d                            \n", BitMask);
+	printf_s("Adress:    %d.%d.%d.%d%s %s.%s.%s.%s\n", IP[0], IP[1], IP[2], IP[3], Sdvig.c_str(), bin(IP[0]).c_str(), bin(IP[1]).c_str(), bin(IP[2]).c_str(), bin(IP[3]).c_str());
+	printf_s("BitMask: %25d                            \n", BitMask);
 	Sdvig = "";
 	for (int i = 0; i < 4; i++)
 	{
 		if (NetMask[i] < 100) Sdvig += " ";
 		if (NetMask[i] < 9) Sdvig += " ";
 	}
-	fprintf_s(output,"NetMask:   %d.%d.%d.%d%s %s.%s.%s.%s\n", NetMask[0], NetMask[1], NetMask[2], NetMask[3], Sdvig.c_str(), bin(NetMask[0]).c_str(), bin(NetMask[1]).c_str(), bin(NetMask[2]).c_str(), bin(NetMask[3]).c_str());
-
-	fclose(output);
-	_chdir("..");
-}
-void IP_Adress::PrintInfo()
-{
-	string Sdvig = "";
+	printf_s("NetMask:   %d.%d.%d.%d%s %s.%s.%s.%s\n", NetMask[0], NetMask[1], NetMask[2], NetMask[3], Sdvig.c_str(), bin(NetMask[0]).c_str(), bin(NetMask[1]).c_str(), bin(NetMask[2]).c_str(), bin(NetMask[3]).c_str());
+	Sdvig = "";
 	for (int i = 0; i < 4; i++)
 	{
 		if (Network[i] < 100) Sdvig += " ";
@@ -207,6 +187,22 @@ void IP_Adress::PrintInfo()
 	_mkdir("Info");
 	_chdir("Info");
 	fopen_s(&output, "IP_Calc.txt", "a");
+	Sdvig = "";
+	for (int i = 0; i < 4; i++)
+	{
+		if (IP[i] < 100) Sdvig += " ";
+		if (IP[i] < 9) Sdvig += " ";
+	}
+	fprintf_s(output, "Adress:    %d.%d.%d.%d%s %s.%s.%s.%s\n", IP[0], IP[1], IP[2], IP[3], Sdvig.c_str(), bin(IP[0]).c_str(), bin(IP[1]).c_str(), bin(IP[2]).c_str(), bin(IP[3]).c_str());
+	fprintf_s(output, "BitMask: %25d                            \n", BitMask);
+	Sdvig = "";
+	for (int i = 0; i < 4; i++)
+	{
+		if (NetMask[i] < 100) Sdvig += " ";
+		if (NetMask[i] < 9) Sdvig += " ";
+	}
+	fprintf_s(output, "NetMask:   %d.%d.%d.%d%s %s.%s.%s.%s\n", NetMask[0], NetMask[1], NetMask[2], NetMask[3], Sdvig.c_str(), bin(NetMask[0]).c_str(), bin(NetMask[1]).c_str(), bin(NetMask[2]).c_str(), bin(NetMask[3]).c_str());
+
 	Sdvig = "";
 	for (int i = 0; i < 4; i++)
 	{
