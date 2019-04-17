@@ -19,6 +19,7 @@ public:
 	int CinMask();
 	void Start();
 	void PrintMainInfo();
+	void PrintOtherInfo();
 	void PrintInfo();
 	int GetHosts() const;
 	~IP_Adress();

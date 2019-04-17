@@ -135,8 +135,144 @@ void IP_Adress::Start()
 
 void IP_Adress::PrintMainInfo()
 {
-
+	string Sdvig = "";
+	for (int i = 0; i < 4; i++)
+	{
+		if (IP[i] < 100) Sdvig += " ";
+		if (IP[i] < 9) Sdvig += " ";
+	}
+	printf_s("Adress:    %d.%d.%d.%d%s %s.%s.%s.%s\n", IP[0], IP[1], IP[2], IP[3], Sdvig.c_str(), bin(IP[0]).c_str(), bin(IP[1]).c_str(), bin(IP[2]).c_str(), bin(IP[3]).c_str());
+	printf_s("BitMask: %25d                            \n", BitMask);
+	Sdvig = "";
+	for (int i = 0; i < 4; i++)
+	{
+		if (NetMask[i] < 100) Sdvig += " ";
+		if (NetMask[i] < 9) Sdvig += " ";
+	}
+	printf_s("NetMask:   %d.%d.%d.%d%s %s.%s.%s.%s\n", NetMask[0], NetMask[1], NetMask[2], NetMask[3], Sdvig.c_str(), bin(NetMask[0]).c_str(), bin(NetMask[1]).c_str(), bin(NetMask[2]).c_str(), bin(NetMask[3]).c_str());
+	printf_s("\n");
+	FILE* output;
+	_mkdir("Info");
+	_chdir("Info");
+	fopen_s(&output, "IP_Splitting.txt", "w");
+	Sdvig = "";
+	for (int i = 0; i < 4; i++)
+	{
+		if (IP[i] < 100) Sdvig += " ";
+		if (IP[i] < 9) Sdvig += " ";
+	}
+	fprintf_s(output, "Adress:    %d.%d.%d.%d%s %s.%s.%s.%s\n", IP[0], IP[1], IP[2], IP[3], Sdvig.c_str(), bin(IP[0]).c_str(), bin(IP[1]).c_str(), bin(IP[2]).c_str(), bin(IP[3]).c_str());
+	fprintf_s(output, "BitMask: %25d                            \n", BitMask);
+	Sdvig = "";
+	for (int i = 0; i < 4; i++)
+	{
+		if (NetMask[i] < 100) Sdvig += " ";
+		if (NetMask[i] < 9) Sdvig += " ";
+	}
+	fprintf_s(output, "NetMask:   %d.%d.%d.%d%s %s.%s.%s.%s\n", NetMask[0], NetMask[1], NetMask[2], NetMask[3], Sdvig.c_str(), bin(NetMask[0]).c_str(), bin(NetMask[1]).c_str(), bin(NetMask[2]).c_str(), bin(NetMask[3]).c_str());
+	fprintf_s(output, "\n");
+	fclose(output);
+	_chdir("..");
 }
+void IP_Adress::PrintOtherInfo()
+{
+	string Sdvig = "";
+	for (int i = 0; i < 4; i++)
+	{
+		if (IP[i] < 100) Sdvig += " ";
+		if (IP[i] < 9) Sdvig += " ";
+	}
+	printf_s("\tAdress:    %d.%d.%d.%d%s %s.%s.%s.%s\n", IP[0], IP[1], IP[2], IP[3], Sdvig.c_str(), bin(IP[0]).c_str(), bin(IP[1]).c_str(), bin(IP[2]).c_str(), bin(IP[3]).c_str());
+	printf_s("\tBitMask: %25d                            \n", BitMask);
+	Sdvig = "";
+	for (int i = 0; i < 4; i++)
+	{
+		if (NetMask[i] < 100) Sdvig += " ";
+		if (NetMask[i] < 9) Sdvig += " ";
+	}
+	printf_s("\tNetMask:   %d.%d.%d.%d%s %s.%s.%s.%s\n", NetMask[0], NetMask[1], NetMask[2], NetMask[3], Sdvig.c_str(), bin(NetMask[0]).c_str(), bin(NetMask[1]).c_str(), bin(NetMask[2]).c_str(), bin(NetMask[3]).c_str());
+	Sdvig = "";
+	for (int i = 0; i < 4; i++)
+	{
+		if (Network[i] < 100) Sdvig += " ";
+		if (Network[i] < 9) Sdvig += " ";
+	}
+	printf_s("\tNetwork:   %d.%d.%d.%d%s %s.%s.%s.%s\n", Network[0], Network[1], Network[2], Network[3], Sdvig.c_str(), bin(Network[0]).c_str(), bin(Network[1]).c_str(), bin(Network[2]).c_str(), bin(Network[3]).c_str());
+	Sdvig = "";
+	for (int i = 0; i < 4; i++)
+	{
+		if (HostMin[i] < 100) Sdvig += " ";
+		if (HostMin[i] < 9) Sdvig += " ";
+	}
+	printf_s("\tHostmin:   %d.%d.%d.%d%s %s.%s.%s.%s\n", HostMin[0], HostMin[1], HostMin[2], HostMin[3], Sdvig.c_str(), bin(HostMin[0]).c_str(), bin(HostMin[1]).c_str(), bin(HostMin[2]).c_str(), bin(HostMin[3]).c_str());
+	Sdvig = "";
+	for (int i = 0; i < 4; i++)
+	{
+		if (HostMax[i] < 100) Sdvig += " ";
+		if (HostMax[i] < 9) Sdvig += " ";
+	}
+	printf_s("\tHostmax:   %d.%d.%d.%d%s %s.%s.%s.%s\n", HostMax[0], HostMax[1], HostMax[2], HostMax[3], Sdvig.c_str(), bin(HostMax[0]).c_str(), bin(HostMax[1]).c_str(), bin(HostMax[2]).c_str(), bin(HostMax[3]).c_str());
+	Sdvig = "";
+	for (int i = 0; i < 4; i++)
+	{
+		if (BroadCast[i] < 100) Sdvig += " ";
+		if (BroadCast[i] < 9) Sdvig += " ";
+	}
+	printf_s("\tBroadcast: %d.%d.%d.%d%s %s.%s.%s.%s\n", BroadCast[0], BroadCast[1], BroadCast[2], BroadCast[3], Sdvig.c_str(), bin(BroadCast[0]).c_str(), bin(BroadCast[1]).c_str(), bin(BroadCast[2]).c_str(), bin(BroadCast[3]).c_str());
+	printf_s("\tHosts:   %25d                            \n", Hosts);
+	FILE* output;
+	_mkdir("Info");
+	_chdir("Info");
+	fopen_s(&output, "IP_Splitting.txt", "a");
+	Sdvig = "";
+	for (int i = 0; i < 4; i++)
+	{
+		if (IP[i] < 100) Sdvig += " ";
+		if (IP[i] < 9) Sdvig += " ";
+	}
+	fprintf_s(output, "\tAdress:    %d.%d.%d.%d%s %s.%s.%s.%s\n", IP[0], IP[1], IP[2], IP[3], Sdvig.c_str(), bin(IP[0]).c_str(), bin(IP[1]).c_str(), bin(IP[2]).c_str(), bin(IP[3]).c_str());
+	fprintf_s(output, "\tBitMask: %25d                            \n", BitMask);
+	Sdvig = "";
+	for (int i = 0; i < 4; i++)
+	{
+		if (NetMask[i] < 100) Sdvig += " ";
+		if (NetMask[i] < 9) Sdvig += " ";
+	}
+	fprintf_s(output, "\tNetMask:   %d.%d.%d.%d%s %s.%s.%s.%s\n", NetMask[0], NetMask[1], NetMask[2], NetMask[3], Sdvig.c_str(), bin(NetMask[0]).c_str(), bin(NetMask[1]).c_str(), bin(NetMask[2]).c_str(), bin(NetMask[3]).c_str());
+
+	Sdvig = "";
+	for (int i = 0; i < 4; i++)
+	{
+		if (Network[i] < 100) Sdvig += " ";
+		if (Network[i] < 9) Sdvig += " ";
+	}
+	fprintf_s(output, "\tNetwork:   %d.%d.%d.%d%s %s.%s.%s.%s\n", Network[0], Network[1], Network[2], Network[3], Sdvig.c_str(), bin(Network[0]).c_str(), bin(Network[1]).c_str(), bin(Network[2]).c_str(), bin(Network[3]).c_str());
+	Sdvig = "";
+	for (int i = 0; i < 4; i++)
+	{
+		if (HostMin[i] < 100) Sdvig += " ";
+		if (HostMin[i] < 9) Sdvig += " ";
+	}
+	fprintf_s(output, "\tHostmin:   %d.%d.%d.%d%s %s.%s.%s.%s\n", HostMin[0], HostMin[1], HostMin[2], HostMin[3], Sdvig.c_str(), bin(HostMin[0]).c_str(), bin(HostMin[1]).c_str(), bin(HostMin[2]).c_str(), bin(HostMin[3]).c_str());
+	Sdvig = "";
+	for (int i = 0; i < 4; i++)
+	{
+		if (HostMax[i] < 100) Sdvig += " ";
+		if (HostMax[i] < 9) Sdvig += " ";
+	}
+	fprintf_s(output, "\tHostmax:   %d.%d.%d.%d%s %s.%s.%s.%s\n", HostMax[0], HostMax[1], HostMax[2], HostMax[3], Sdvig.c_str(), bin(HostMax[0]).c_str(), bin(HostMax[1]).c_str(), bin(HostMax[2]).c_str(), bin(HostMax[3]).c_str());
+	Sdvig = "";
+	for (int i = 0; i < 4; i++)
+	{
+		if (BroadCast[i] < 100) Sdvig += " ";
+		if (BroadCast[i] < 9) Sdvig += " ";
+	}
+	fprintf_s(output, "\tBroadcast: %d.%d.%d.%d%s %s.%s.%s.%s\n", BroadCast[0], BroadCast[1], BroadCast[2], BroadCast[3], Sdvig.c_str(), bin(BroadCast[0]).c_str(), bin(BroadCast[1]).c_str(), bin(BroadCast[2]).c_str(), bin(BroadCast[3]).c_str());
+	fprintf_s(output, "\tHosts:   %25d                            \n", Hosts);
+	fclose(output);
+	_chdir("..");
+}
+
 void IP_Adress::PrintInfo()
 {
 	string Sdvig = "";
@@ -186,7 +322,7 @@ void IP_Adress::PrintInfo()
 	FILE* output;
 	_mkdir("Info");
 	_chdir("Info");
-	fopen_s(&output, "IP_Calc.txt", "a");
+	fopen_s(&output, "IP_Calc.txt", "w");
 	Sdvig = "";
 	for (int i = 0; i < 4; i++)
 	{
