@@ -83,7 +83,7 @@ void IP_Adress::Start()
 			HostMax[i] = IP[i];
 			HostMin[i] = IP[i];
 		}
-		Hosts = 1;
+		Hosts = 0;
 	}
 	else
 		if (BitMask == 31)
@@ -97,7 +97,7 @@ void IP_Adress::Start()
 			}
 			BroadCast[3]++;
 			HostMax[3]++;
-			Hosts = 2;
+			Hosts = 0;
 		}
 		else
 		{

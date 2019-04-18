@@ -51,15 +51,24 @@ void Settings::SetLang()
 		cout << "\t2 - RUS\n";
 		cout << "\t3 - Exit\n";
 		cin >> Ans;
-		if (Ans != 1 && Ans !=2 && Ans!=3) cout << "Error\n";
+	SetL:
+		if (Ans != 1 && Ans != 2 && Ans != 3) cout << "Error\n";
 		else
 		{
-			if (Ans == 3) return;
+			if (Ans == 3)
+			{
+				if (Load())
+				{
+					Ans = 0;
+					goto SetL;
+				}
+				return;
+			}
 			cout << "Press Y/N\n";
 			char c;
 			while (c = _getch())
 			{
-				if (c == 'y' || c == 'Y' || c=='í' || c=='Í')
+				if (c == 'y' || c == 'Y' || c == 'í' || c == 'Í')
 				{
 					switch (Ans)
 					{
@@ -68,7 +77,7 @@ void Settings::SetLang()
 					}
 					return;
 				}
-				else if (c == 'n' || c == 'N' || c=='ò' || c=='Ò') break;
+				else if (c == 'n' || c == 'N' || c == 'ò' || c == 'Ò') break;
 			}
 		}
 	}

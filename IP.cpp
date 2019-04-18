@@ -1,6 +1,14 @@
 #include "IP.h"
 #include <direct.h>
 #include <algorithm>
+#include <vector>
+using namespace std;
+
+bool cmp(pair<int, int> a, pair<int, int> b)
+{
+	return a.first > b.first;
+}
+
 void IP_Calc()
 {
 	IP_Adress MyIP;
@@ -45,9 +53,9 @@ Exit:
 void IP_Splitting()
 {
 	system("cls");
+Error:
 	int Count;
 	IP_Adress MainNetwork;
-	Error:
 	while (true)	
 	{
 		if (MySettings.GetLang() == "RUS") cout << "Введите IP-адрес в десятично-точечном формате.\n";
@@ -81,7 +89,7 @@ Exit:
 	MainNetwork.Start();
 	if (MySettings.GetLang() == "RUS") cout << "Количество необходимых подсетей: ";
 	if (MySettings.GetLang() == "ENG") cout << "The number of required subnets: ";
-	if (scanf_s("%d", &Count) != 1 || 2*Count>MainNetwork.GetHosts())
+	if (scanf_s("%d", &Count) != 1 || 4*Count-2>MainNetwork.GetHosts())
 	{
 		if (MySettings.GetLang()=="RUS") cout << "Неверное количество подсетей!!!\n";
 		if (MySettings.GetLang()=="ENG") cout << "Invalid number of subnets!!!\n";
@@ -90,7 +98,7 @@ Exit:
 		goto Error;
 	}
 	int* Hosts = new int[Count];
-	int AllHosts = 0;
+	int AllHosts = 0,FreeIP = 0;
 	for (int i = 0; i < Count; i++)
 	{
 		if (MySettings.GetLang() == "RUS") cout << "\tПодсеть " << i + 1 << ": ";
@@ -104,7 +112,8 @@ Exit:
 			delete[]Hosts;
 			goto Error;
 		}
-		AllHosts += Hosts[i];
+		FreeIP += Hosts[i]+2;
+		AllHosts+=pow(2, int(log10(Hosts[i] +2 + 1) / log10(2)));
 	}
 	if (AllHosts> MainNetwork.GetHosts())
 	{
@@ -116,8 +125,19 @@ Exit:
 		goto Error;
 	}
 	IP_Adress* Network = new IP_Adress[Count];
+	int *Name = new int[Count];
+	for (int i = 0; i < Count; i++) Name[i] = i+1;
 	cout << "\n";
-	sort(Hosts, Hosts + Count,greater<int>());
+	{
+		vector<pair<int, int>> Sort;
+		for (int i = 0; i < Count; i++) Sort.push_back(make_pair(Hosts[i], Name[i]));
+		sort(Sort.begin(), Sort.end(), cmp);
+		for (int i = 0; i < Count; i++)
+		{
+			Hosts[i] = Sort[i].first;
+			Name[i] = Sort[i].second;
+		}
+	}
 	Network[0].Make(Hosts[0],MainNetwork);
 	for (int i = 1; i < Count; i++)
 	{
@@ -132,13 +152,13 @@ Exit:
 		fopen_s(&output, "IP_Splitting.txt", "a");
 		if (MySettings.GetLang() == "RUS")
 		{
-			cout << "Подсеть " << i + 1 << ":\n";
-			fprintf_s(output,"Подсеть %d:\n", i + 1);
+			cout << "Подсеть " << Name[i] << ":\n";
+			fprintf_s(output,"Подсеть %d:\n", Name[i]);
 		}
 		if (MySettings.GetLang() == "ENG")
 		{
-			cout << "Subnet " << i + 1 << ":\n";
-			fprintf_s(output, "Subnet %d:\n", i + 1);
+			cout << "Subnet " << Name[i] << ":\n";
+			fprintf_s(output, "Subnet %d:\n", Name[i]);
 		}
 		fclose(output);
 		_chdir("..");
@@ -148,7 +168,7 @@ Exit:
 	_mkdir("Info");
 	_chdir("Info");
 	fopen_s(&output, "IP_Splitting.txt", "a");
-	int FreeIP = MainNetwork.GetHosts() - AllHosts;
+	FreeIP = MainNetwork.GetHosts() - FreeIP;
 	if (MySettings.GetLang() == "RUS")
 	{
 		printf_s("Свободных IP адресов: %20d\n", FreeIP);
