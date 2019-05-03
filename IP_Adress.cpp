@@ -31,6 +31,7 @@ IP_Adress::~IP_Adress()
 int IP_Adress::CinIP()
 {
 	if (scanf_s("%d.%d.%d.%d\0", &IP[0],&IP[1],&IP[2],&IP[3])!=4) return 1;
+	if (getchar() != '\n') return 1;
 	for (int i = 0; i < 4; i++)
 		if (IP[i] > 255 || IP[i]<0) return 1;
 	return 0;
@@ -39,6 +40,7 @@ int IP_Adress::CinIP()
 int IP_Adress::CinMask()
 {
 	int Err = scanf_s("%d.%d.%d.%d\0", &NetMask[0], &NetMask[1], &NetMask[2], &NetMask[3]);
+	if (getchar() != '\n') return 1;
 	if (Err == 1)
 	{
 		BitMask = NetMask[0];
@@ -177,6 +179,16 @@ void IP_Adress::PrintMainInfo()
 void IP_Adress::PrintOtherInfo()
 {
 	string Sdvig = "";
+	FILE* output;
+	_mkdir("Info");
+	_chdir("Info");
+	fopen_s(&output, "IP_Splitting.txt", "a");
+	if (Hosts == 0)
+	{
+		printf_s("\tNetwork is clear!\n");
+		fprintf_s(output,"\tNetwork is clear!\n");
+		return;
+	}
 	for (int i = 0; i < 4; i++)
 	{
 		if (IP[i] < 100) Sdvig += " ";
@@ -220,10 +232,6 @@ void IP_Adress::PrintOtherInfo()
 	}
 	printf_s("\tBroadcast: %d.%d.%d.%d%s %s.%s.%s.%s\n", BroadCast[0], BroadCast[1], BroadCast[2], BroadCast[3], Sdvig.c_str(), bin(BroadCast[0]).c_str(), bin(BroadCast[1]).c_str(), bin(BroadCast[2]).c_str(), bin(BroadCast[3]).c_str());
 	printf_s("\tHosts:   %25d                            \n", Hosts);
-	FILE* output;
-	_mkdir("Info");
-	_chdir("Info");
-	fopen_s(&output, "IP_Splitting.txt", "a");
 	Sdvig = "";
 	for (int i = 0; i < 4; i++)
 	{
@@ -381,7 +389,7 @@ void IP_Adress::Make(const IP_Adress& obj, const int Size)
 {
 	for (int i = 0; i < 4; i++) IP[i] = obj.BroadCast[i];
 	IP[3]++;
-	BitMask = 32 - int(log10(Size + 2 + 1) / log10(2));
+	BitMask = 31 - int(log10(Size + 1) / log10(2));
 	int Help = BitMask, i = 0;
 	while (Help >= 8)
 	{
@@ -401,7 +409,7 @@ void IP_Adress::Make(const IP_Adress& obj, const int Size)
 void IP_Adress::Make(const int Size, const IP_Adress& obj)
 {
 	for (int i = 0; i < 4; i++) IP[i] = obj.IP[i];
-	BitMask = 32 - int(log10(Size+2 + 1) / log10(2));
+	BitMask = 31 - int(log10(Size+1) / log10(2));
 	int Help = BitMask, i = 0;
 	while (Help >= 8)
 	{

@@ -28,8 +28,8 @@ void IP_Calc()
 		else
 			while (true)
 			{
-				if (MySettings.GetLang() == "RUS") cout << "Введите маску подсети в десятично-точечном формате.\n";
-				if (MySettings.GetLang() == "ENG") cout << "Enter the Net Mask in decimal format.\n";
+				if (MySettings.GetLang() == "RUS") cout << "Введите маску подсети.\n";
+				if (MySettings.GetLang() == "ENG") cout << "Enter the Net Mask.\n";
 				if (MyIP.CinMask())
 				{
 					if (MySettings.GetLang() == "RUS") cout << "Недопустимое значение для Net Mask!!!\n";
@@ -71,8 +71,8 @@ Error:
 		else
 			while (true)
 			{
-				if (MySettings.GetLang() == "RUS") cout << "Введите маску подсети в десятично-точечном формате.\n";
-				if (MySettings.GetLang() == "ENG") cout << "Enter the Net Mask in decimal format.\n";
+				if (MySettings.GetLang() == "RUS") cout << "Введите маску подсети.\n";
+				if (MySettings.GetLang() == "ENG") cout << "Enter the Net Mask.\n";
 				if (MainNetwork.CinMask())					
 				{
 					if (MySettings.GetLang() == "RUS") cout << "Недопустимое значение для Net Mask!!!\n";
@@ -98,7 +98,7 @@ Exit:
 		goto Error;
 	}
 	int* Hosts = new int[Count];
-	int AllHosts = 0,FreeIP = 0;
+	int AllHosts = 0;
 	for (int i = 0; i < Count; i++)
 	{
 		if (MySettings.GetLang() == "RUS") cout << "\tПодсеть " << i + 1 << ": ";
@@ -112,21 +112,20 @@ Exit:
 			delete[]Hosts;
 			goto Error;
 		}
-		FreeIP += Hosts[i]+2;
 		AllHosts+=pow(2, int(log10(Hosts[i] +2 + 1) / log10(2)));
-	}
-	if (AllHosts> MainNetwork.GetHosts())
-	{
-		if (MySettings.GetLang() == "RUS") cout << "Неверное количество IP-адресов!!!\n";
-		if (MySettings.GetLang() == "ENG") cout << "Incorrect number of IP-addresses!!!\n";
-		system("pause");
-		system("cls");
-		delete[]Hosts;
-		goto Error;
+		if (AllHosts > MainNetwork.GetHosts())
+		{
+			if (MySettings.GetLang() == "RUS") cout << "Неверное количество IP-адресов!!!\n";
+			if (MySettings.GetLang() == "ENG") cout << "Incorrect number of IP-addresses!!!\n";
+			system("pause");
+			system("cls");
+			delete[]Hosts;
+			goto Error;
+		}
 	}
 	IP_Adress* Network = new IP_Adress[Count];
 	int *Name = new int[Count];
-	for (int i = 0; i < Count; i++) Name[i] = i+1;
+	for (int i = 0; i < Count; i++) Name[i] = i + 1;
 	cout << "\n";
 	{
 		vector<pair<int, int>> Sort;
@@ -138,10 +137,22 @@ Exit:
 			Name[i] = Sort[i].second;
 		}
 	}
-	Network[0].Make(Hosts[0],MainNetwork);
-	for (int i = 1; i < Count; i++)
+	if (Hosts[0] != 0)
 	{
-		Network[i].Make(Network[i - 1], Hosts[i]);
+		Network[0].Make(Hosts[0], MainNetwork);
+		for (int i = 1; i < Count; i++)
+			if (Hosts[i] != 0)
+			{
+				Network[i].Make(Network[i - 1], Hosts[i]);
+			}
+	}
+	else
+	{
+		int i = 0;
+		while (Hosts[i] == 0 && i<Count) i++;
+		Network[i++].Make(Hosts[i++], MainNetwork);
+		for (int j = i; j < Count; j++)
+			if (Hosts[j] != 0) Network[i].Make(Network[i - 1], Hosts[i]);
 	}
 	MainNetwork.PrintMainInfo();
 	for (int i = 0; i < Count; i++)
@@ -164,11 +175,13 @@ Exit:
 		_chdir("..");
 		Network[i].PrintOtherInfo();
 	}
+	AllHosts = 0;
+	for (int i = 0; i < Count; i++) AllHosts += Network[i].GetHosts()+2;
 	FILE* output;
 	_mkdir("Info");
 	_chdir("Info");
 	fopen_s(&output, "IP_Splitting.txt", "a");
-	FreeIP = MainNetwork.GetHosts() - FreeIP;
+	int FreeIP = MainNetwork.GetHosts()-AllHosts;
 	if (MySettings.GetLang() == "RUS")
 	{
 		printf_s("Свободных IP адресов: %20d\n", FreeIP);

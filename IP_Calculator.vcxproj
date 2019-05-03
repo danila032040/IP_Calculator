@@ -18,6 +18,19 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Globals.cpp" />
+    <ClCompile Include="IP.cpp" />
+    <ClCompile Include="IP_Adress.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Settings.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Globals.h" />
+    <ClInclude Include="IP.h" />
+    <ClInclude Include="IP_Adress.h" />
+    <ClInclude Include="Settings.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{3B5387DD-010D-4872-ADA5-082C9B41313F}</ProjectGuid>
@@ -122,19 +135,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Globals.cpp" />
-    <ClCompile Include="IP.cpp" />
-    <ClCompile Include="IP_Adress.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Settings.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Globals.h" />
-    <ClInclude Include="IP.h" />
-    <ClInclude Include="IP_Adress.h" />
-    <ClInclude Include="Settings.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
