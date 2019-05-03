@@ -181,7 +181,7 @@ Exit:
 	_mkdir("Info");
 	_chdir("Info");
 	fopen_s(&output, "IP_Splitting.txt", "a");
-	int FreeIP = MainNetwork.GetHosts()-AllHosts;
+	int FreeIP = MainNetwork.GetHosts()-AllHosts+2;
 	if (MySettings.GetLang() == "RUS")
 	{
 		printf_s("Свободных IP адресов: %20d\n", FreeIP);
